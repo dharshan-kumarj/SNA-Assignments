@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Bootstrap Web Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="bg-primary text-white py-3">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="display-6 fw-bold mb-0">
+                        <i class="bi bi-laptop"></i> TechHub
+                    </h1>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <span class="d-none d-md-inline">Welcome to our responsive website! </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-lg-none" href="#">Menu</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#home">
+                            <i class="bi bi-house-door"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">
+                            <i class="bi bi-info-circle"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">
+                            <i class="bi bi-gear"></i> Services
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">
+                            <i class="bi bi-images"></i> Portfolio
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots"></i> More
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#team">Our Team</a></li>
+                            <li><a class="dropdown-item" href="#testimonials">Testimonials</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#contact">Contact Us</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-section bg-light py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <h2 class="display-4 fw-bold text-primary">Welcome to TechHub</h2>
+                        <p class="lead text-muted">
+                            We create innovative digital solutions that transform businesses and enhance user experiences.
+                        </p>
+                        <p class="fs-5">
+                            Our team of experts specializes in web development, mobile applications, and cutting-edge technology solutions.
+                        </p>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Get Started</button>
+                            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop" 
+                             class="img-fluid rounded shadow" 
+                             alt="Hero Image - Technology workspace">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="display-5 fw-bold">About Us</h2>
+                        <p class="lead text-muted">Discover who we are and what drives us</p>
+                        <hr class="w-25 mx-auto">
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm text-center">
+                            <div class="card-body">
+                                <div class="feature-icon bg-primary text-white rounded-circle mb-3 mx-auto">
+                                    <i class="bi bi-lightning-charge fs-2"></i>
+                                </div>
+                                <h5 class="card-title fw-bold">Fast Performance</h5>
+                                <p class="card-text text-muted">
+                                    Lightning-fast websites optimized for speed and efficiency.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm text-center">
+                            <div class="card-body">
+                                <div class="feature-icon bg-success text-white rounded-circle mb-3 mx-auto">
+                                    <i class="bi bi-shield-check fs-2"></i>
+                                </div>
+                                <h5 class="card-title fw-bold">Secure & Reliable</h5>
+                                <p class="card-text text-muted">
+                                    Enterprise-grade security to protect your data and users.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm text-center">
+                            <div class="card-body">
+                                <div class="feature-icon bg-warning text-white rounded-circle mb-3 mx-auto">
+                                    <i class="bi bi-phone fs-2"></i>
+                                </div>
+                                <h5 class="card-title fw-bold">Mobile First</h5>
+                                <p class="card-text text-muted">
+                                    Responsive designs that work beautifully on all devices.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm text-center">
+                            <div class="card-body">
+                                <div class="feature-icon bg-danger text-white rounded-circle mb-3 mx-auto">
+                                    <i class="bi bi-headset fs-2"></i>
+                                </div>
+                                <h5 class="card-title fw-bold">24/7 Support</h5>
+                                <p class="card-text text-muted">
+                                    Round-the-clock assistance whenever you need help.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="display-5 fw-bold">Our Services</h2>
+                        <p class="lead text-muted">Comprehensive solutions for your digital needs</p>
+                        <hr class="w-25 mx-auto">
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="card h-100 border-0 shadow">
+                            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&h=250&fit=crop" 
+                                 class="card-img-top img-fluid" 
+                                 alt="Web Development">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">
+                                    <i class="bi bi-code-slash text-primary"></i> Web Development
+                                </h5>
+                                <p class="card-text">
+                                    Custom websites and web applications built with modern technologies.  
+                                    From simple landing pages to complex enterprise solutions. 
+                                </p>
+                                <ul class="list-unstyled">
+                                    <li><i class="bi bi-check-circle text-success"></i> Responsive Design</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> SEO Optimized</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> Fast Loading</li>
+                                </ul>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <a href="#" class="btn btn-primary w-100">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card h-100 border-0 shadow">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop" 
+                                 class="card-img-top img-fluid" 
+                                 alt="Mobile Apps">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">
+                                    <i class="bi bi-phone text-primary"></i> Mobile Apps
+                                </h5>
+                                <p class="card-text">
+                                    Native and cross-platform mobile applications for iOS and Android. 
+                                    Engaging user experiences on every device.
+                                </p>
+                                <ul class="list-unstyled">
+                                    <li><i class="bi bi-check-circle text-success"></i> iOS & Android</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> Cross-Platform</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> App Store Ready</li>
+                                </ul>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <a href="#" class="btn btn-primary w-100">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card h-100 border-0 shadow">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop" 
+                                 class="card-img-top img-fluid" 
+                                 alt="Data Analytics">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">
+                                    <i class="bi bi-graph-up text-primary"></i> Data Analytics
+                                </h5>
+                                <p class="card-text">
+                                    Transform your data into actionable insights.  
+                                    Business intelligence and analytics solutions.
+                                </p>
+                                <ul class="list-unstyled">
+                                    <li><i class="bi bi-check-circle text-success"></i> Real-time Dashboards</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> Predictive Analysis</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> Custom Reports</li>
+                                </ul>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <a href="#" class="btn btn-primary w-100">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="display-5 fw-bold">Our Portfolio</h2>
+                        <p class="lead text-muted">Showcase of our recent work</p>
+                        <hr class="w-25 mx-auto">
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="portfolio-item position-relative overflow-hidden rounded shadow">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop" 
+                                 class="img-fluid w-100" 
+                                 alt="Project 1 - E-commerce Platform">
+                            <div class="portfolio-overlay">
+                                <h5 class="text-white">E-commerce Platform</h5>
+                                <p class="text-white-50 small">Web Development</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="portfolio-item position-relative overflow-hidden rounded shadow">
+                            <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=400&h=300&fit=crop" 
+                                 class="img-fluid w-100" 
+                                 alt="Project 2 - Finance App">
+                            <div class="portfolio-overlay">
+                                <h5 class="text-white">Finance App</h5>
+                                <p class="text-white-50 small">Mobile Development</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="portfolio-item position-relative overflow-hidden rounded shadow">
+                            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=400&h=300&fit=crop" 
+                                 class="img-fluid w-100" 
+                                 alt="Project 3 - Analytics Dashboard">
+                            <div class="portfolio-overlay">
+                                <h5 class="text-white">Analytics Dashboard</h5>
+                                <p class="text-white-50 small">Data Visualization</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="portfolio-item position-relative overflow-hidden rounded shadow">
+                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop" 
+                                 class="img-fluid w-100" 
+                                 alt="Project 4 - Team Collaboration Tool">
+                            <div class="portfolio-overlay">
+                                <h5 class="text-white">Collaboration Tool</h5>
+                                <p class="text-white-50 small">SaaS Product</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="portfolio-item position-relative overflow-hidden rounded shadow">
+                            <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=400&h=300&fit=crop" 
+                                 class="img-fluid w-100" 
+                                 alt="Project 5 - Social Media App">
+                            <div class="portfolio-overlay">
+                                <h5 class="text-white">Social Media App</h5>
+                                <p class="text-white-50 small">Mobile Development</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="portfolio-item position-relative overflow-hidden rounded shadow">
+                            <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=400&h=300&fit=crop" 
+                                 class="img-fluid w-100" 
+                                 alt="Project 6 - AI Assistant">
+                            <div class="portfolio-overlay">
+                                <h5 class="text-white">AI Assistant</h5>
+                                <p class="text-white-50 small">Machine Learning</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section id="team" class="py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="display-5 fw-bold">Our Team</h2>
+                        <p class="lead text-muted">Meet the experts behind our success</p>
+                        <hr class="w-25 mx-auto">
+                    </div>
+                </div>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm text-center">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop" 
+                                 class="card-img-top img-fluid" 
+                                 alt="John Smith - CEO">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold mb-1">John Smith</h5>
+                                <p class="text-primary small mb-2">CEO & Founder</p>
+                                <p class="card-text text-muted small">
+                                    Visionary leader with 15+ years of industry experience.
+                                </p>
+                                <div class="social-links">
+                                    <a href="#" class="text-primary me-2"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="text-info me-2"><i class="bi bi-twitter"></i></a>
+                                    <a href="#" class="text-secondary"><i class="bi bi-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm text-center">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop" 
+                                 class="card-img-top img-fluid" 
+                                 alt="Sarah Johnson - CTO">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold mb-1">Sarah Johnson</h5>
+                                <p class="text-primary small mb-2">CTO</p>
+                                <p class="card-text text-muted small">
+                                    Tech expert specializing in cloud architecture and AI. 
+                                </p>
+                                <div class="social-links">
+                                    <a href="#" class="text-primary me-2"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="text-info me-2"><i class="bi bi-twitter"></i></a>
+                                    <a href="#" class="text-secondary"><i class="bi bi-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm text-center">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop" 
+                                 class="card-img-top img-fluid" 
+                                 alt="Mike Chen - Lead Developer">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold mb-1">Mike Chen</h5>
+                                <p class="text-primary small mb-2">Lead Developer</p>
+                                <p class="card-text text-muted small">
+                                    Full-stack developer with passion for clean code.
+                                </p>
+                                <div class="social-links">
+                                    <a href="#" class="text-primary me-2"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="text-info me-2"><i class="bi bi-twitter"></i></a>
+                                    <a href="#" class="text-secondary"><i class="bi bi-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm text-center">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop" 
+                                 class="card-img-top img-fluid" 
+                                 alt="Emily Davis - UX Designer">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold mb-1">Emily Davis</h5>
+                                <p class="text-primary small mb-2">UX Designer</p>
+                                <p class="card-text text-muted small">
+                                    Creating intuitive and beautiful user experiences.
+                                </p>
+                                <div class="social-links">
+                                    <a href="#" class="text-primary me-2"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="text-info me-2"><i class="bi bi-twitter"></i></a>
+                                    <a href="#" class="text-secondary"><i class="bi bi-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-5 bg-primary text-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="display-5 fw-bold">What Our Clients Say</h2>
+                        <p class="lead opacity-75">Testimonials from our valued customers</p>
+                        <hr class="w-25 mx-auto bg-white">
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 bg-white text-dark">
+                            <div class="card-body">
+                                <div class="mb-3 text-warning">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                                <p class="card-text fst-italic">
+                                    "TechHub transformed our online presence completely. Their team delivered beyond our expectations with a stunning, responsive website."
+                                </p>
+                                <div class="d-flex align-items-center mt-3">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop" 
+                                         class="rounded-circle me-3" 
+                                         alt="Client 1"
+                                         width="50" height="50">
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Robert Williams</h6>
+                                        <small class="text-muted">CEO, Tech Corp</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 bg-white text-dark">
+                            <div class="card-body">
+                                <div class="mb-3 text-warning">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                                <p class="card-text fst-italic">
+                                    "The mobile app they developed for us has been a game-changer. User engagement increased by 200% within the first month!"
+                                </p>
+                                <div class="d-flex align-items-center mt-3">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop" 
+                                         class="rounded-circle me-3" 
+                                         alt="Client 2"
+                                         width="50" height="50">
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Amanda Foster</h6>
+                                        <small class="text-muted">Marketing Director, StartUp Inc</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 bg-white text-dark">
+                            <div class="card-body">
+                                <div class="mb-3 text-warning">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                </div>
+                                <p class="card-text fst-italic">
+                                    "Professional, responsive, and incredibly talented. TechHub's data analytics solution helped us make better business decisions."
+                                </p>
+                                <div class="d-flex align-items-center mt-3">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=50&h=50&fit=crop" 
+                                         class="rounded-circle me-3" 
+                                         alt="Client 3"
+                                         width="50" height="50">
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">David Park</h6>
+                                        <small class="text-muted">COO, Data Solutions</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="display-5 fw-bold">Contact Us</h2>
+                        <p class="lead text-muted">Get in touch with our team</p>
+                        <hr class="w-25 mx-auto">
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow h-100">
+                            <div class="card-body p-4">
+                                <h4 class="fw-bold mb-4">Send us a message</h4>
+                                <form>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="firstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" placeholder="John">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="lastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" placeholder="Doe">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" placeholder="john@example.com">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="subject" class="form-label">Subject</label>
+                                            <select class="form-select" id="subject">
+                                                <option selected>Choose a subject...</option>
+                                                <option value="1">General Inquiry</option>
+                                                <option value="2">Project Quote</option>
+                                                <option value="3">Technical Support</option>
+                                                <option value="4">Partnership</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="message" class="form-label">Message</label>
+                                            <textarea class="form-control" id="message" rows="4" placeholder="Your message here..."></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="newsletter">
+                                                <label class="form-check-label" for="newsletter">
+                                                    Subscribe to our newsletter
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                                <i class="bi bi-send"></i> Send Message
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow h-100">
+                            <div class="card-body p-4">
+                                <h4 class="fw-bold mb-4">Contact Information</h4>
+                                <div class="d-flex mb-4">
+                                    <div class="contact-icon bg-primary text-white rounded-circle me-3">
+                                        <i class="bi bi-geo-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Address</h6>
+                                        <p class="text-muted mb-0">123 Tech Street, Silicon Valley<br>CA 94000, USA</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-4">
+                                    <div class="contact-icon bg-success text-white rounded-circle me-3">
+                                        <i class="bi bi-telephone"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Phone</h6>
+                                        <p class="text-muted mb-0">+1 (555) 123-4567<br>+1 (555) 987-6543</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-4">
+                                    <div class="contact-icon bg-warning text-white rounded-circle me-3">
+                                        <i class="bi bi-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Email</h6>
+                                        <p class="text-muted mb-0">info@techhub.com<br>support@techhub.com</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-4">
+                                    <div class="contact-icon bg-info text-white rounded-circle me-3">
+                                        <i class="bi bi-clock"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Business Hours</h6>
+                                        <p class="text-muted mb-0">Mon - Fri: 9:00 AM - 6:00 PM<br>Sat - Sun:  Closed</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h5 class="fw-bold mb-3">Follow Us</h5>
+                                <div class="social-icons">
+                                    <a href="#" class="btn btn-outline-primary btn-lg me-2"><i class="bi bi-facebook"></i></a>
+                                    <a href="#" class="btn btn-outline-info btn-lg me-2"><i class="bi bi-twitter"></i></a>
+                                    <a href="#" class="btn btn-outline-danger btn-lg me-2"><i class="bi bi-instagram"></i></a>
+                                    <a href="#" class="btn btn-outline-primary btn-lg"><i class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-3">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-laptop"></i> TechHub
+                    </h5>
+                    <p class="text-muted">
+                        We are a leading technology company dedicated to delivering innovative digital solutions 
+                        that help businesses grow and succeed in the modern world.
+                    </p>
+                    <div class="social-footer">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-linkedin fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-github fs-5"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="fw-bold mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="#about" class="text-muted text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="#services" class="text-muted text-decoration-none">Services</a></li>
+                        <li class="mb-2"><a href="#portfolio" class="text-muted text-decoration-none">Portfolio</a></li>
+                        <li class="mb-2"><a href="#contact" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="fw-bold mb-3">Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Web Development</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Mobile Apps</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">UI/UX Design</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Cloud Solutions</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Data Analytics</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="fw-bold mb-3">Newsletter</h5>
+                    <p class="text-muted">Subscribe to our newsletter for updates and insights. </p>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your email" aria-label="Email">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-send"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <p class="text-muted small">
+                        <i class="bi bi-shield-check"></i> We respect your privacy. 
+                    </p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-muted small">
+                        &copy; 2025 TechHub. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-muted text-decoration-none small me-3">Privacy Policy</a>
+                    <a href="#" class="text-muted text-decoration-none small me-3">Terms of Service</a>
+                    <a href="#" class="text-muted text-decoration-none small">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="btn btn-primary btn-lg rounded-circle position-fixed" style="bottom: 30px; right: 30px; display: none;">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
