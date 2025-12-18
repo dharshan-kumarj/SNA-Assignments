@@ -9,15 +9,23 @@ class QueueManager {
 
     public function __construct() {
         $host = getenv('RABBITMQ_HOST') ?: 'rabbitmq';
+        $port = getenv('RABBITMQ_PORT') ?: 5672;
         $user = getenv('RABBITMQ_USER') ?: 'guest';
         $pass = getenv('RABBITMQ_PASS') ?: 'guest';
 
-        $this->connection = new AMQPStreamConnection($host, 5672, $user, $pass);
-        $this->channel = $this->connection->channel();
-        $this->channel->queue_declare('task_queue', false, true, false, false);
+        try {
+            $this->connection = new AMQPStreamConnection($host, $port, $user, $pass);
+            $this->channel = $this->connection->channel();
+            $this->channel->queue_declare('task_queue', false, true, false, false);
+        } catch (Exception $e) {
+            // Log error but don't crash app if queue is optional
+            error_log("RabbitMQ Connection Error: " . $e->getMessage());
+        }
     }
 
     public function sendTask($data) {
+        if (!$this->channel) return;
+
         $msg = new AMQPMessage(
             json_encode($data),
             array('delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT)
@@ -26,8 +34,8 @@ class QueueManager {
     }
 
     public function __destruct() {
-        $this->channel->close();
-        $this->connection->close();
+        if ($this->channel) $this->channel->close();
+        if ($this->connection) $this->connection->close();
     }
 }
 ?>

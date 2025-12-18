@@ -8,26 +8,31 @@ class Database {
     private $db;
 
     public function __construct() {
-        $host = getenv('MONGO_HOST') ?: 'mongo';
-        $port = getenv('MONGO_PORT') ?: '27017';
-        $user = getenv('MONGO_USER') ?: 'admin';
-        $pass = getenv('MONGO_PASS') ?: 'secret123';
-        $db_name = getenv('MONGO_DB') ?: 'app_db';
+        // Support for MongoDB Atlas SRV connection string
+        $mongo_uri = getenv('MONGO_URI');
+        $db_name = getenv('MONGO_DB') ?: 'Dharshan_kumarj_Assign_3';
 
-        // Construct URI with Authentication Source (admin)
-        if ($user && $pass) {
-            $uri = "mongodb://{$user}:{$pass}@{$host}:{$port}/?authSource=admin";
-        } else {
-            $uri = "mongodb://{$host}:{$port}";
+        if (!$mongo_uri) {
+            // Fallback to legacy config
+            $host = getenv('MONGO_HOST') ?: 'mongo';
+            $port = getenv('MONGO_PORT') ?: '27017';
+            $user = getenv('MONGO_USER') ?: 'root';
+            $pass = getenv('MONGO_PASS') ?: 'rootpassword';
+            $auth_source = getenv('MONGO_AUTH_SOURCE') ?: 'admin';
+
+            if ($user && $pass) {
+                $mongo_uri = "mongodb://{$user}:{$pass}@{$host}:{$port}/?authSource={$auth_source}";
+            } else {
+                $mongo_uri = "mongodb://{$host}:{$port}";
+            }
         }
         
         try {
-            // Disable SSL for local dev if needed, or keep default
-            $this->client = new Client($uri);
+            $this->client = new Client($mongo_uri);
             $this->db = $this->client->selectDatabase($db_name);
             
-            // Test Connection
-            $this->client->listDatabases();
+            // Test Connection (Ping)
+            $this->client->selectDatabase($db_name)->command(['ping' => 1]);
             
         } catch (Exception $e) {
             error_log("MongoDB Connection Error: " . $e->getMessage());
@@ -35,7 +40,7 @@ class Database {
             http_response_code(500);
             echo json_encode([
                 "success" => false, 
-                "message" => "Database Error: " . $e->getMessage()
+                "message" => "Database Connection Failed: " . $e->getMessage()
             ]);
             exit;
         }
