@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   web:
     build:
@@ -8,24 +10,14 @@ services:
     volumes:
       - ../htdocs:/var/www/html
     environment:
-      - MONGO_HOST=mongo
-      - RABBITMQ_HOST=rabbitmq
-    depends_on:
-      - mongo
-      - rabbitmq
+      # MongoDB Atlas Configuration (SRV)
+      - MONGO_URI=mongodb+srv://Dharshankumar:Dharshankumar125478@cluster0.ypjp051.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - MONGO_DB=Dharshan_kumarj_Assign_3
 
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    volumes:
-      - mongo_data:/data/db
+      # RabbitMQ Configuration
+      - RABBITMQ_HOST=rabbitmq.selfmade.ninja
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=dharshan_kumarj
+      - RABBITMQ_PASS=12345678
 
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-
-volumes:
-  mongo_data:
+    restart: always
