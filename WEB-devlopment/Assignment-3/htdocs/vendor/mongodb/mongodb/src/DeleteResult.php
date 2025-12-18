@@ -25,10 +25,13 @@ use MongoDB\Exception\BadMethodCallException;
  */
 class DeleteResult
 {
+    private WriteResult $writeResult;
+
     private bool $isAcknowledged;
 
-    public function __construct(private WriteResult $writeResult)
+    public function __construct(WriteResult $writeResult)
     {
+        $this->writeResult = $writeResult;
         $this->isAcknowledged = $writeResult->isAcknowledged();
     }
 

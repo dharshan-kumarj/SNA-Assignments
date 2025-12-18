@@ -44,6 +44,11 @@ class CodecCursor implements CursorInterface, Iterator
 {
     private const TYPEMAP = ['root' => 'bson'];
 
+    private Cursor $cursor;
+
+    /** @var DocumentCodec<TValue> */
+    private DocumentCodec $codec;
+
     /** @var TValue|null */
     private ?object $current = null;
 
@@ -138,7 +143,9 @@ class CodecCursor implements CursorInterface, Iterator
     }
 
     /** @param DocumentCodec<TValue> $codec */
-    private function __construct(private Cursor $cursor, private DocumentCodec $codec)
+    private function __construct(Cursor $cursor, DocumentCodec $codec)
     {
+        $this->cursor = $cursor;
+        $this->codec = $codec;
     }
 }

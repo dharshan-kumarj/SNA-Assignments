@@ -30,15 +30,17 @@ use MongoDB\Exception\UnsupportedValueException;
 interface DocumentCodec extends Codec
 {
     /**
+     * @param mixed $value
      * @psalm-param Document $value
      * @psalm-return ObjectType
      * @throws UnsupportedValueException if the decoder does not support the value
      */
-    public function decode(mixed $value): object;
+    public function decode($value): object;
 
     /**
+     * @param mixed $value
      * @psalm-param ObjectType $value
      * @throws UnsupportedValueException if the encoder does not support the value
      */
-    public function encode(mixed $value): Document;
+    public function encode($value): Document;
 }

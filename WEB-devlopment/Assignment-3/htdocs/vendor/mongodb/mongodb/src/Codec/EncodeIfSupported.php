@@ -25,22 +25,27 @@ use MongoDB\Exception\UnsupportedValueException;
  */
 trait EncodeIfSupported
 {
-    /** @psalm-assert-if-true NativeType $value */
-    abstract public function canEncode(mixed $value): bool;
+    /**
+     * @param mixed $value
+     * @psalm-assert-if-true NativeType $value
+     */
+    abstract public function canEncode($value): bool;
 
     /**
+     * @param mixed $value
      * @psalm-param NativeType $value
      * @return mixed
      * @psalm-return BSONType
      * @throws UnsupportedValueException if the encoder does not support the value
      */
-    abstract public function encode(mixed $value);
+    abstract public function encode($value);
 
     /**
+     * @param mixed $value
      * @return mixed
      * @psalm-return ($value is NativeType ? BSONType : $value)
      */
-    public function encodeIfSupported(mixed $value)
+    public function encodeIfSupported($value)
     {
         return $this->canEncode($value) ? $this->encode($value) : $value;
     }

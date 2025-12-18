@@ -59,6 +59,12 @@ class CreateEncryptedCollection implements Executable
 
     private CreateIndexes $createSafeContentIndex;
 
+    private string $databaseName;
+
+    private string $collectionName;
+
+    private array $options;
+
     /**
      * @see CreateCollection::__construct() for supported options
      * @param string $databaseName   Database name
@@ -66,20 +72,20 @@ class CreateEncryptedCollection implements Executable
      * @param array  $options        CreateCollection options
      * @throws InvalidArgumentException for parameter/option parsing errors
      */
-    public function __construct(private string $databaseName, private string $collectionName, private array $options)
+    public function __construct(string $databaseName, string $collectionName, array $options)
     {
-        if (! isset($this->options['encryptedFields'])) {
+        if (! isset($options['encryptedFields'])) {
             throw new InvalidArgumentException('"encryptedFields" option is required');
         }
 
-        if (! is_document($this->options['encryptedFields'])) {
-            throw InvalidArgumentException::expectedDocumentType('"encryptedFields" option', $this->options['encryptedFields']);
+        if (! is_document($options['encryptedFields'])) {
+            throw InvalidArgumentException::expectedDocumentType('"encryptedFields" option', $options['encryptedFields']);
         }
 
-        $this->createCollection = new CreateCollection($databaseName, $collectionName, $this->options);
+        $this->createCollection = new CreateCollection($databaseName, $collectionName, $options);
 
         /** @psalm-var array{ecocCollection?: ?string, escCollection?: ?string} */
-        $encryptedFields = document_to_array($this->options['encryptedFields']);
+        $encryptedFields = document_to_array($options['encryptedFields']);
         $enxcolOptions = ['clusteredIndex' => ['key' => ['_id' => 1], 'unique' => true]];
 
         $this->createMetadataCollections = [
@@ -88,6 +94,10 @@ class CreateEncryptedCollection implements Executable
         ];
 
         $this->createSafeContentIndex = new CreateIndexes($databaseName, $collectionName, [['key' => ['__safeContent__' => 1]]]);
+
+        $this->databaseName = $databaseName;
+        $this->collectionName = $collectionName;
+        $this->options = $options;
     }
 
     /**

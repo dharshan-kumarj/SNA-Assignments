@@ -57,6 +57,10 @@ class FindAndModify implements Executable, Explainable
 
     private const WIRE_VERSION_FOR_UNSUPPORTED_OPTION_SERVER_SIDE_ERROR = 8;
 
+    private string $databaseName;
+
+    private string $collectionName;
+
     private array $options;
 
     /**
@@ -127,7 +131,7 @@ class FindAndModify implements Executable, Explainable
      * @param array  $options        Command options
      * @throws InvalidArgumentException for parameter/option parsing errors
      */
-    public function __construct(private string $databaseName, private string $collectionName, array $options)
+    public function __construct(string $databaseName, string $collectionName, array $options)
     {
         $options += ['remove' => false];
 
@@ -151,8 +155,8 @@ class FindAndModify implements Executable, Explainable
             throw InvalidArgumentException::expectedDocumentType('"fields" option', $options['fields']);
         }
 
-        if (isset($options['hint']) && ! is_string($options['hint']) && ! is_document($options['hint'])) {
-            throw InvalidArgumentException::expectedDocumentOrStringType('"hint" option', $options['hint']);
+        if (isset($options['hint']) && ! is_string($options['hint']) && ! is_array($options['hint']) && ! is_object($options['hint'])) {
+            throw InvalidArgumentException::invalidType('"hint" option', $options['hint'], ['string', 'array', 'object']);
         }
 
         if (isset($options['maxTimeMS']) && ! is_integer($options['maxTimeMS'])) {
@@ -215,6 +219,8 @@ class FindAndModify implements Executable, Explainable
             throw InvalidArgumentException::cannotCombineCodecAndTypeMap();
         }
 
+        $this->databaseName = $databaseName;
+        $this->collectionName = $collectionName;
         $this->options = $options;
     }
 

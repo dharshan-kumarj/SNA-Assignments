@@ -35,9 +35,12 @@ use function array_key_exists;
  */
 class DatabaseInfo implements ArrayAccess
 {
+    private array $info;
+
     /** @param array $info Database info */
-    public function __construct(private array $info)
+    public function __construct(array $info)
     {
+        $this->info = $info;
     }
 
     /**
@@ -69,7 +72,7 @@ class DatabaseInfo implements ArrayAccess
     public function getSizeOnDisk()
     {
         /* The MongoDB server might return this number as an integer or float */
-        return (int) $this->info['sizeOnDisk'];
+        return (integer) $this->info['sizeOnDisk'];
     }
 
     /**
@@ -79,18 +82,19 @@ class DatabaseInfo implements ArrayAccess
      */
     public function isEmpty()
     {
-        return (bool) $this->info['empty'];
+        return (boolean) $this->info['empty'];
     }
 
     /**
      * Check whether a field exists in the database information.
      *
      * @see https://php.net/arrayaccess.offsetexists
+     * @param mixed $offset
      * @return boolean
      * @psalm-param array-key $offset
      */
     #[ReturnTypeWillChange]
-    public function offsetExists(mixed $offset)
+    public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->info);
     }
@@ -99,11 +103,12 @@ class DatabaseInfo implements ArrayAccess
      * Return the field's value from the database information.
      *
      * @see https://php.net/arrayaccess.offsetget
+     * @param mixed $offset
      * @return mixed
      * @psalm-param array-key $offset
      */
     #[ReturnTypeWillChange]
-    public function offsetGet(mixed $offset)
+    public function offsetGet($offset)
     {
         return $this->info[$offset];
     }
@@ -112,11 +117,13 @@ class DatabaseInfo implements ArrayAccess
      * Not supported.
      *
      * @see https://php.net/arrayaccess.offsetset
+     * @param mixed $offset
+     * @param mixed $value
      * @throws BadMethodCallException
      * @return void
      */
     #[ReturnTypeWillChange]
-    public function offsetSet(mixed $offset, mixed $value)
+    public function offsetSet($offset, $value)
     {
         throw BadMethodCallException::classIsImmutable(self::class);
     }
@@ -125,11 +132,12 @@ class DatabaseInfo implements ArrayAccess
      * Not supported.
      *
      * @see https://php.net/arrayaccess.offsetunset
+     * @param mixed $offset
      * @throws BadMethodCallException
      * @return void
      */
     #[ReturnTypeWillChange]
-    public function offsetUnset(mixed $offset)
+    public function offsetUnset($offset)
     {
         throw BadMethodCallException::classIsImmutable(self::class);
     }

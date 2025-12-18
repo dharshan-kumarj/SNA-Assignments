@@ -39,10 +39,14 @@ use function array_key_exists;
  */
 class IndexInfoIteratorIterator extends IteratorIterator implements IndexInfoIterator
 {
+    private ?string $ns = null;
+
     /** @param Traversable<int, array> $iterator */
-    public function __construct(Traversable $iterator, private ?string $ns = null)
+    public function __construct(Traversable $iterator, ?string $ns = null)
     {
         parent::__construct($iterator);
+
+        $this->ns = $ns;
     }
 
     /**

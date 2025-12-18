@@ -54,6 +54,8 @@ class WritableStream
 
     private bool $disableMD5;
 
+    private CollectionWrapper $collectionWrapper;
+
     private array $file;
 
     private ?HashContext $hashCtx = null;
@@ -90,7 +92,7 @@ class WritableStream
      * @param array             $options           Upload options
      * @throws InvalidArgumentException
      */
-    public function __construct(private CollectionWrapper $collectionWrapper, string $filename, array $options = [])
+    public function __construct(CollectionWrapper $collectionWrapper, string $filename, array $options = [])
     {
         $options += [
             '_id' => new ObjectId(),
@@ -123,6 +125,7 @@ class WritableStream
         }
 
         $this->chunkSize = $options['chunkSizeBytes'];
+        $this->collectionWrapper = $collectionWrapper;
         $this->disableMD5 = $options['disableMD5'];
 
         if (! $this->disableMD5) {
@@ -236,7 +239,7 @@ class WritableStream
     {
         try {
             $this->collectionWrapper->deleteChunksByFilesId($this->file['_id']);
-        } catch (DriverRuntimeException) {
+        } catch (DriverRuntimeException $e) {
             // We are already handling an error if abort() is called, so suppress this
         }
 

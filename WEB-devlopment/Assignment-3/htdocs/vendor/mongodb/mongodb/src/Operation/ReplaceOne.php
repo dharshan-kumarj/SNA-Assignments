@@ -33,8 +33,6 @@ use function MongoDB\is_pipeline;
  *
  * @see \MongoDB\Collection::replaceOne()
  * @see https://mongodb.com/docs/manual/reference/command/update/
- *
- * @final extending this class will not be supported in v2.0.0
  */
 class ReplaceOne implements Executable
 {
@@ -74,12 +72,6 @@ class ReplaceOne implements Executable
      *    Parameters can then be accessed as variables in an aggregate
      *    expression context (e.g. "$$var").
      *
-     *   * sort (document): Determines which document the operation modifies if
-     *     the query selects multiple documents.
-     *
-     *     This is not supported for server versions < 8.0 and will result in an
-     *     exception at execution time if used.
-     *
      *  * writeConcern (MongoDB\Driver\WriteConcern): Write concern.
      *
      * @param string       $databaseName   Database name
@@ -89,7 +81,7 @@ class ReplaceOne implements Executable
      * @param array        $options        Command options
      * @throws InvalidArgumentException for parameter/option parsing errors
      */
-    public function __construct(string $databaseName, string $collectionName, array|object $filter, array|object $replacement, array $options = [])
+    public function __construct(string $databaseName, string $collectionName, $filter, $replacement, array $options = [])
     {
         if (isset($options['codec']) && ! $options['codec'] instanceof DocumentCodec) {
             throw InvalidArgumentException::invalidType('"codec" option', $options['codec'], DocumentCodec::class);
@@ -121,8 +113,11 @@ class ReplaceOne implements Executable
         return $this->update->execute($server);
     }
 
-    /** @return array|object */
-    private function validateReplacement(array|object $replacement, ?DocumentCodec $codec)
+    /**
+     * @param array|object $replacement
+     * @return array|object
+     */
+    private function validateReplacement($replacement, ?DocumentCodec $codec)
     {
         if ($codec) {
             $replacement = $codec->encode($replacement);

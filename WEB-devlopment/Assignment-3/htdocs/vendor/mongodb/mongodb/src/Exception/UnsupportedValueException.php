@@ -24,24 +24,32 @@ use function sprintf;
 
 class UnsupportedValueException extends InvalidArgumentException implements Exception
 {
+    /** @var mixed */
+    private $value;
+
     /** @return mixed */
     public function getValue()
     {
         return $this->value;
     }
 
-    public static function invalidDecodableValue(mixed $value): self
+    /** @param mixed $value */
+    public static function invalidDecodableValue($value): self
     {
         return new self(sprintf('Could not decode value of type "%s".', get_debug_type($value)), $value);
     }
 
-    public static function invalidEncodableValue(mixed $value): self
+    /** @param mixed $value */
+    public static function invalidEncodableValue($value): self
     {
         return new self(sprintf('Could not encode value of type "%s".', get_debug_type($value)), $value);
     }
 
-    private function __construct(string $message, private mixed $value)
+    /** @param mixed $value */
+    private function __construct(string $message, $value)
     {
         parent::__construct($message);
+
+        $this->value = $value;
     }
 }

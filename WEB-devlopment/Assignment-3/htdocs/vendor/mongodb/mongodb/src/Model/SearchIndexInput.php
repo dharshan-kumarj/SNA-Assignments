@@ -36,11 +36,13 @@ use function MongoDB\is_document;
  */
 class SearchIndexInput implements Serializable
 {
+    private array $index;
+
     /**
      * @param array{definition: array|object, name?: string, type?: string} $index Search index specification
      * @throws InvalidArgumentException
      */
-    public function __construct(private array $index)
+    public function __construct(array $index)
     {
         if (! isset($index['definition'])) {
             throw new InvalidArgumentException('Required "definition" document is missing from search index specification');
@@ -58,6 +60,8 @@ class SearchIndexInput implements Serializable
         if (isset($index['type']) && ! is_string($index['type'])) {
             throw InvalidArgumentException::invalidType('"type" option', $index['type'], 'string');
         }
+
+        $this->index = $index;
     }
 
     /**

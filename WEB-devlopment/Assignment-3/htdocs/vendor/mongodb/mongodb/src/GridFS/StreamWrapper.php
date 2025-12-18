@@ -54,7 +54,8 @@ class StreamWrapper
     /** @var resource|null Stream context (set by PHP) */
     public $context;
 
-    private ReadableStream|WritableStream|null $stream = null;
+    /** @var ReadableStream|WritableStream|null */
+    private $stream;
 
     /** @var array<string, Closure(string, string, array): ContextOptions> */
     private static array $contextResolvers = [];
@@ -322,7 +323,7 @@ class StreamWrapper
 
         try {
             $this->stream_open($path, 'r', 0, $openedPath);
-        } catch (FileNotFoundException) {
+        } catch (FileNotFoundException $e) {
             return false;
         }
 

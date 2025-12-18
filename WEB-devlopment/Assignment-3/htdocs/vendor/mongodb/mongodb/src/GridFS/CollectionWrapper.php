@@ -41,7 +41,11 @@ use function sprintf;
  */
 class CollectionWrapper
 {
+    private string $bucketName;
+
     private Collection $chunksCollection;
+
+    private string $databaseName;
 
     private bool $checkedIndexes = false;
 
@@ -57,16 +61,21 @@ class CollectionWrapper
      * @param array   $collectionOptions Collection options
      * @throws InvalidArgumentException
      */
-    public function __construct(Manager $manager, private string $databaseName, private string $bucketName, array $collectionOptions = [])
+    public function __construct(Manager $manager, string $databaseName, string $bucketName, array $collectionOptions = [])
     {
+        $this->databaseName = $databaseName;
+        $this->bucketName = $bucketName;
+
         $this->filesCollection = new Collection($manager, $databaseName, sprintf('%s.files', $bucketName), $collectionOptions);
         $this->chunksCollection = new Collection($manager, $databaseName, sprintf('%s.chunks', $bucketName), $collectionOptions);
     }
 
     /**
      * Deletes all GridFS chunks for a given file ID.
+     *
+     * @param mixed $id
      */
-    public function deleteChunksByFilesId(mixed $id): void
+    public function deleteChunksByFilesId($id): void
     {
         $this->chunksCollection->deleteMany(['files_id' => $id]);
     }
@@ -74,7 +83,7 @@ class CollectionWrapper
     /**
      * Delete all GridFS files and chunks for a given filename.
      */
-    public function deleteFileAndChunksByFilename(string $filename): int
+    public function deleteFileAndChunksByFilename(string $filename): ?int
     {
         /** @var iterable<array{_id: mixed}> $files */
         $files = $this->findFiles(['filename' => $filename], [
@@ -96,8 +105,10 @@ class CollectionWrapper
 
     /**
      * Deletes a GridFS file and related chunks by ID.
+     *
+     * @param mixed $id
      */
-    public function deleteFileAndChunksById(mixed $id): void
+    public function deleteFileAndChunksById($id): void
     {
         $this->filesCollection->deleteOne(['_id' => $id]);
         $this->chunksCollection->deleteMany(['files_id' => $id]);
@@ -119,7 +130,7 @@ class CollectionWrapper
      * @param integer $fromChunk Starting chunk (inclusive)
      * @return CursorInterface&Iterator
      */
-    public function findChunksByFileId(mixed $id, int $fromChunk = 0)
+    public function findChunksByFileId($id, int $fromChunk = 0)
     {
         return $this->chunksCollection->find(
             [
@@ -150,6 +161,9 @@ class CollectionWrapper
      */
     public function findFileByFilenameAndRevision(string $filename, int $revision): ?object
     {
+        $filename = $filename;
+        $revision = $revision;
+
         if ($revision < 0) {
             $skip = abs($revision) - 1;
             $sortOrder = -1;
@@ -173,8 +187,10 @@ class CollectionWrapper
 
     /**
      * Finds a GridFS file document for a given ID.
+     *
+     * @param mixed $id
      */
-    public function findFileById(mixed $id): ?object
+    public function findFileById($id): ?object
     {
         $file = $this->filesCollection->findOne(
             ['_id' => $id],
@@ -193,7 +209,7 @@ class CollectionWrapper
      * @param array        $options Additional options
      * @return CursorInterface&Iterator
      */
-    public function findFiles(array|object $filter, array $options = [])
+    public function findFiles($filter, array $options = [])
     {
         return $this->filesCollection->find($filter, $options);
     }
@@ -205,7 +221,7 @@ class CollectionWrapper
      * @param array        $options Additional options
      * @return array|object|null
      */
-    public function findOneFile(array|object $filter, array $options = [])
+    public function findOneFile($filter, array $options = [])
     {
         return $this->filesCollection->findOne($filter, $options);
     }
@@ -235,7 +251,7 @@ class CollectionWrapper
      *
      * @param array|object $chunk Chunk document
      */
-    public function insertChunk(array|object $chunk): void
+    public function insertChunk($chunk): void
     {
         if (! $this->checkedIndexes) {
             $this->ensureIndexes();
@@ -251,7 +267,7 @@ class CollectionWrapper
      *
      * @param array|object $file File document
      */
-    public function insertFile(array|object $file): void
+    public function insertFile($file): void
     {
         if (! $this->checkedIndexes) {
             $this->ensureIndexes();
@@ -263,7 +279,7 @@ class CollectionWrapper
     /**
      * Updates the filename field in the file document for all the files with a given filename.
      */
-    public function updateFilenameForFilename(string $filename, string $newFilename): int
+    public function updateFilenameForFilename(string $filename, string $newFilename): ?int
     {
         return $this->filesCollection->updateMany(
             ['filename' => $filename],
@@ -273,8 +289,10 @@ class CollectionWrapper
 
     /**
      * Updates the filename field in the file document for a given ID.
+     *
+     * @param mixed $id
      */
-    public function updateFilenameForId(mixed $id, string $filename): UpdateResult
+    public function updateFilenameForId($id, string $filename): UpdateResult
     {
         return $this->filesCollection->updateOne(
             ['_id' => $id],
