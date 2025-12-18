@@ -22,6 +22,16 @@ if (isset($_SESSION['ip_agent'])) {
     }
 }
 
+// Auto-lock: Check session timeout (30 minutes)
+$sessionTimeout = 30 * 60; // 30 minutes
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $sessionTimeout)) {
+    session_destroy();
+    http_response_code(401);
+    echo json_encode(["success" => false, "message" => "Session expired. Please login again."]);
+    exit;
+}
+$_SESSION['last_activity'] = time();
+
 $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents("php://input"), true);
 
@@ -31,36 +41,62 @@ try {
 
     switch ($method) {
         case 'GET':
-            // Get all notes or single note
-            $noteId = $_GET['id'] ?? null;
-            if ($noteId) {
-                $data = $note->getById($noteId);
-            } else {
-                $data = $note->getAll();
+            $action = $_GET['action'] ?? 'list';
+            
+            switch ($action) {
+                case 'stats':
+                    echo json_encode(["success" => true, "data" => $note->getStats()]);
+                    break;
+                    
+                case 'activity':
+                    echo json_encode(["success" => true, "data" => $note->getActivity()]);
+                    break;
+                    
+                case 'export':
+                    echo json_encode(["success" => true, "data" => $note->exportNotes()]);
+                    break;
+                    
+                case 'single':
+                    $noteId = $_GET['id'] ?? null;
+                    if (!$noteId) throw new Exception("Note ID required");
+                    echo json_encode(["success" => true, "data" => $note->getById($noteId)]);
+                    break;
+                    
+                default:
+                    // List notes with optional search and filter
+                    $search = $_GET['search'] ?? null;
+                    $tag = $_GET['tag'] ?? null;
+                    echo json_encode(["success" => true, "data" => $note->getAll($search, $tag)]);
             }
-            echo json_encode(["success" => true, "data" => $data]);
             break;
 
         case 'POST':
-            // Create new note
             if (empty($input['title'])) {
                 throw new Exception("Title is required");
             }
-            $id = $note->create($input['title'], $input['content'] ?? '');
+            $id = $note->create(
+                $input['title'], 
+                $input['content'] ?? '', 
+                $input['tag'] ?? 'personal',
+                $input['is_encrypted'] ?? false
+            );
             echo json_encode(["success" => true, "id" => (string)$id]);
             break;
 
         case 'PUT':
-            // Update note
             if (empty($input['id']) || empty($input['title'])) {
                 throw new Exception("ID and Title are required");
             }
-            $note->update($input['id'], $input['title'], $input['content'] ?? '');
+            $note->update(
+                $input['id'], 
+                $input['title'], 
+                $input['content'] ?? '',
+                $input['tag'] ?? null
+            );
             echo json_encode(["success" => true, "message" => "Note updated"]);
             break;
 
         case 'DELETE':
-            // Delete note
             $noteId = $_GET['id'] ?? ($input['id'] ?? null);
             if (empty($noteId)) {
                 throw new Exception("Note ID is required");
