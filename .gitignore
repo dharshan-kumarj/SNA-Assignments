@@ -23,6 +23,9 @@ composer.lock
 .env.test
 .env.production
 
+# Production config with credentials (edit on server, don't commit!)
+**/api/config.php
+
 # ===========================
 # Build Outputs
 # ===========================
