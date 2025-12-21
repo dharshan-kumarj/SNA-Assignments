@@ -1,30 +1,58 @@
-# 🔐 Nexus Vault - Secure PHP Application
+# 🔐 Nexus Vault - Secure Notes Application
 
-A Full Stack Web Application developed for SNA Assignment 3.
-It features a secure authentication system, MongoDB Atlas integration, and asynchronous task processing using RabbitMQ.
+> **Live Demo:** [https://nexusvalut.selfmade.one/](https://nexusvalut.selfmade.one/)
+
+A Full Stack Web Application developed for **SNA Assignment 3** - A secure notes management system with user authentication, MongoDB integration, and asynchronous task processing.
 
 ---
 
 ## 📋 Table of Contents
 
+- [Live Demo](#live-demo)
 - [Features](#features)
+- [Technical Stack](#technical-stack)
 - [Architecture](#architecture)
-- [Quick Start - Docker (Recommended)](#quick-start---docker-recommended)
-- [Quick Start - Without Docker](#quick-start---without-docker)
-- [Production Deployment](#production-deployment)
-- [Configuration Reference](#configuration-reference)
-- [Troubleshooting](#troubleshooting)
+- [Setup & Installation](#setup--installation)
+  - [Docker (Recommended)](#method-1-docker-recommended)
+  - [Without Docker](#method-2-without-docker)
+- [API Documentation](#api-documentation)
+- [Security Features](#security-features)
+- [CI/CD Pipeline](#cicd-pipeline)
+- [Assignment Requirements Checklist](#assignment-requirements-checklist)
+
+---
+
+## 🌐 Live Demo
+
+**Production URL:** [https://nexusvalut.selfmade.one/](https://nexusvalut.selfmade.one/)
 
 ---
 
 ## ✨ Features
 
+| Feature | Description |
+|---------|-------------|
+| 🔐 **Secure Authentication** | User registration & login with session management |
+| 📝 **CRUD Notes** | Create, Read, Update, Delete personal notes |
+| 🛡️ **Session Fingerprinting** | FingerprintJS integration to prevent session hijacking |
+| 📧 **Email Notifications** | Welcome emails via RabbitMQ async queue |
+| 🔄 **Daily Maintenance** | Automated cron job for cleanup tasks |
+| 📱 **Responsive Design** | Mobile-friendly Bootstrap 5 interface |
+
+---
+
+## 🛠️ Technical Stack
+
 | Category | Technologies |
 |----------|-------------|
-| **Frontend** | Responsive UI, Bootstrap 5, minified assets via Grunt |
-| **Backend** | PHP 8.2 (OOP), MongoDB Atlas (NoSQL), FingerprintJS |
-| **DevOps** | Docker, GitLab CI/CD, RabbitMQ, Cron Jobs |
-| **Security** | Session Fingerprinting, Input Sanitization, Environment Variables |
+| **Frontend** | HTML5, CSS3, JavaScript, Bootstrap 5 |
+| **Backend** | PHP 8.2 (OOP), RESTful APIs |
+| **Database** | MongoDB Atlas (NoSQL) |
+| **Containerization** | Docker, Docker Compose |
+| **Message Queue** | RabbitMQ |
+| **Task Runner** | Grunt.js (CSS/JS minification, file copying) |
+| **CI/CD** | GitLab CI/CD |
+| **Security** | FingerprintJS, Input Sanitization, Session Management |
 
 ---
 
@@ -32,264 +60,224 @@ It features a secure authentication system, MongoDB Atlas integration, and async
 
 ```
 Assignment-3/
-├── workspace/          # Source code & build config
-│   ├── src/            # Raw source files
-│   └── Gruntfile.js    # Build configuration
-├── htdocs/             # Production-ready files (served by Apache/PHP)
-│   ├── api/            # Backend PHP API
-│   ├── js/             # Frontend JavaScript
-│   ├── css/            # Stylesheets
-│   └── index.html      # Entry point
-├── docker/             # Docker configuration
-│   ├── docker-compose.yml
-│   ├── Dockerfile
-│   └── Dockerfile.worker
-├── .env.example        # Environment template
-└── README.md           # This file
+├── workspace/                    # Source code & build configuration
+│   ├── src/
+│   │   ├── backend/              # PHP source files
+│   │   ├── frontend/             # HTML, CSS, JS source
+│   │   └── assets/               # Raw assets
+│   ├── Gruntfile.js              # Grunt task configuration
+│   └── package.json              # Node.js dependencies
+│
+├── htdocs/                       # Production-ready files (served by Apache)
+│   ├── api/                      # Backend PHP API
+│   │   ├── Database.php          # MongoDB connection handler
+│   │   ├── User.php              # User model & authentication
+│   │   ├── Note.php              # Notes CRUD operations
+│   │   ├── login.php             # Login API endpoint
+│   │   ├── register.php          # Registration API endpoint
+│   │   └── notes.php             # Notes API endpoint
+│   ├── js/                       # Minified JavaScript
+│   ├── css/                      # Minified CSS
+│   ├── vendor/                   # Composer dependencies
+│   └── index.html                # Main entry point
+│
+├── docker/                       # Docker configuration
+│   ├── docker-compose.yml        # Service orchestration
+│   ├── Dockerfile                # Web container
+│   ├── Dockerfile.worker         # RabbitMQ worker container
+│   ├── entrypoint.sh             # Container startup script
+│   └── daily_script.sh           # Daily cron job script
+│
+├── .gitlab-ci.yml                # CI/CD pipeline configuration
+├── .env.example                  # Environment variables template
+├── README.md                     # This documentation
+├── QUICKSTART.md                 # Quick setup guide
+└── PRODUCTION_GUIDE.md           # Production deployment guide
 ```
 
 ---
 
-## 🐳 Quick Start - Docker (Recommended)
+## 🚀 Setup & Installation
 
 ### Prerequisites
-- Docker & Docker Compose installed
-- MongoDB Atlas account (free tier works)
 
-### Steps
+- Git
+- Docker & Docker Compose (for Docker method)
+- PHP 8.2+ with MongoDB extension (for non-Docker method)
+- Composer
+- MongoDB Atlas account (free tier)
+
+---
+
+### Method 1: Docker (Recommended)
 
 ```bash
 # 1. Clone the repository
-git clone <your-repo-url>
+git clone <repository-url>
 cd Assignment-3
 
 # 2. Create environment file
 cp .env.example .env
 
-# 3. Edit .env with your MongoDB Atlas credentials
-# MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/...
-# MONGO_DB=nexus_vault
+# 3. Edit .env with your credentials
+# - MONGO_URI: Your MongoDB Atlas connection string
+# - MONGO_DB: Database name
+# - SMTP settings: For email functionality
 
-# 4. Start the application
+# 4. Build and start containers
 cd docker
 docker-compose up -d --build
+
+# 5. Access the application
+# Web App: http://localhost:8080
+# RabbitMQ Dashboard: http://localhost:15672
 ```
 
-### Access Points
-
-| Service | URL | Credentials |
-|---------|-----|-------------|
-| **Web App** | http://localhost:8080 | - |
-| **RabbitMQ Dashboard** | http://localhost:15672 | admin / admin123 |
-
-### Docker Commands
+#### Docker Commands Reference
 
 ```bash
-# Start
+# Start services
 docker-compose up -d
 
-# Stop
+# Stop services
 docker-compose down
 
 # View logs
 docker-compose logs -f
 
-# Rebuild after changes
+# Rebuild after code changes
 docker-compose up -d --build
+
+# Enter web container
+docker exec -it docker-web-1 bash
 ```
 
 ---
 
-## 🖥️ Quick Start - Without Docker
-
-### Prerequisites
-- PHP 8.2+ with MongoDB extension
-- Composer (PHP package manager)
-- MongoDB Atlas account
-
-### Option 1: PHP Built-in Server (Development)
+### Method 2: Without Docker
 
 ```bash
-# 1. Navigate to htdocs
+# 1. Clone the repository
+git clone <repository-url>
 cd Assignment-3/htdocs
 
 # 2. Install PHP dependencies
 composer install
 
 # 3. Configure credentials
-#    Edit htdocs/api/config.php with your MongoDB URI
+cp api/config.example.php api/config.php
+# Edit api/config.php with your MongoDB URI
 
-# 4. Start the server
+# 4. Start PHP development server
 php -S 0.0.0.0:8080
+
+# 5. Access at http://localhost:8080
 ```
 
-**Access at:** http://localhost:8080
-
-> **Note:** Use `0.0.0.0` instead of `localhost` to allow external access (port forwarding).
-
-### Option 2: Apache Server (Production)
-
-1. **Copy files to Apache's web directory:**
-   ```bash
-   cp -r htdocs/* /var/www/html/nexus-vault/
-   cd /var/www/html/nexus-vault
-   composer install
-   ```
-
-2. **Edit `api/config.php` with your credentials:**
-   ```php
-   putenv('MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/...');
-   putenv('MONGO_DB=nexus_vault');
-   ```
-
-3. **Set permissions:**
-   ```bash
-   sudo chown -R www-data:www-data /var/www/html/nexus-vault
-   ```
-
-4. **Restart Apache:**
-   ```bash
-   sudo systemctl restart apache2
-   ```
-
----
-
-## 🚀 Production Deployment
-
-### Method 1: Using Docker (Recommended)
+#### For Apache Production Server
 
 ```bash
-# On your production server
-git clone <repo-url>
-cd Assignment-3
-cp .env.example .env
-nano .env  # Add your real credentials
-cd docker
-docker-compose up -d --build
-```
+# Copy files to Apache's web directory
+sudo cp -r htdocs/* /var/www/html/nexus-vault/
 
-### Method 2: Using Apache + PHP
+# Install dependencies
+cd /var/www/html/nexus-vault
+composer install --no-dev
 
-1. **Clone and install dependencies:**
-   ```bash
-   git clone <repo-url>
-   cd Assignment-3/htdocs
-   composer install --no-dev --optimize-autoloader
-   ```
+# Configure credentials
+cp api/config.example.php api/config.php
+nano api/config.php
 
-2. **Configure environment variables in `api/config.php`**
-
-3. **Set up Apache VirtualHost:**
-   ```apache
-   <VirtualHost *:80>
-       ServerName yourdomain.com
-       DocumentRoot /path/to/htdocs
-       
-       <Directory /path/to/htdocs>
-           AllowOverride All
-           Require all granted
-       </Directory>
-   </VirtualHost>
-   ```
-
-4. **Enable SSL with Let's Encrypt (optional but recommended):**
-   ```bash
-   sudo certbot --apache -d yourdomain.com
-   ```
-
-For detailed production setup, see [PRODUCTION_GUIDE.md](./PRODUCTION_GUIDE.md)
-
----
-
-## ⚙️ Configuration Reference
-
-### Environment Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `MONGO_URI` | MongoDB Atlas connection string | `mongodb+srv://user:pass@cluster...` |
-| `MONGO_DB` | Database name | `nexus_vault` |
-| `MONGO_ALLOW_INVALID_CERTS` | Skip TLS verification (debug only) | `false` |
-| `RABBITMQ_HOST` | RabbitMQ hostname | `rabbitmq` or `localhost` |
-| `RABBITMQ_PORT` | RabbitMQ port | `5672` |
-| `RABBITMQ_USER` | RabbitMQ username | `admin` |
-| `RABBITMQ_PASS` | RabbitMQ password | `admin123` |
-| `SMTP_HOST` | Email SMTP server | `smtp.gmail.com` |
-| `SMTP_PORT` | SMTP port | `587` |
-| `SMTP_USER` | SMTP username | `your-email@gmail.com` |
-| `SMTP_PASS` | SMTP password (App Password) | `xxxx-xxxx-xxxx` |
-
-### Configuration Files
-
-| File | Purpose | When to Use |
-|------|---------|-------------|
-| `.env` | Docker environment variables | Docker deployment |
-| `htdocs/api/config.php` | PHP environment variables | Non-Docker deployment |
-| `htdocs/.htaccess` | Apache configuration | Apache deployment |
-
----
-
-## 🔧 Troubleshooting
-
-### MongoDB TLS/SSL Error
-```
-TLS handshake failed: tlsv1 alert internal error
-```
-
-**Solution:** Set `MONGO_ALLOW_INVALID_CERTS=true` in your config.
-
----
-
-### "Failed to resolve 'mongo'"
-```
-No suitable servers found: Failed to resolve 'mongo'
-```
-
-**Cause:** Environment variables not set.
-
-**Solution:** 
-- Docker: Check `.env` file
-- Non-Docker: Check `htdocs/api/config.php`
-
----
-
-### Missing vendor folder
-```
-Failed opening required '.../vendor/autoload.php'
-```
-
-**Solution:** 
-```bash
-cd htdocs
-composer install
+# Set permissions
+sudo chown -R www-data:www-data /var/www/html/nexus-vault
+sudo systemctl restart apache2
 ```
 
 ---
 
-### MongoDB IP Not Whitelisted
-```
-not authorized on database
-```
+## 📡 API Documentation
 
-**Solution:** Go to MongoDB Atlas → Network Access → Add your IP (or `0.0.0.0/0`)
+### Authentication Endpoints
+
+| Method | Endpoint | Description | Request Body |
+|--------|----------|-------------|--------------|
+| POST | `/api/register.php` | Register new user | `{email, password, name}` |
+| POST | `/api/login.php` | User login | `{email, password, fingerprint}` |
+| POST | `/api/logout.php` | User logout | - |
+
+### Notes Endpoints
+
+| Method | Endpoint | Description | Request Body |
+|--------|----------|-------------|--------------|
+| GET | `/api/notes.php` | Get all user notes | - |
+| POST | `/api/notes.php` | Create new note | `{title, content}` |
+| PUT | `/api/notes.php` | Update note | `{id, title, content}` |
+| DELETE | `/api/notes.php` | Delete note | `{id}` |
+
+### Sample API Response
+
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "user_id": "507f1f77bcf86cd799439011",
+    "email": "user@example.com",
+    "name": "John Doe"
+  }
+}
+```
 
 ---
 
 ## 🔐 Security Features
 
-- **Session Fingerprinting**: FingerprintJS + User Agent + IP hash
-- **Defensive Coding**: Strict type checking, exception handling
-- **Input Sanitization**: htmlspecialchars on all user input
-- **Environment Variables**: Credentials never hardcoded
+| Feature | Implementation |
+|---------|----------------|
+| **Session Fingerprinting** | FingerprintJS generates unique browser fingerprint, validated on each request |
+| **Password Hashing** | `password_hash()` with bcrypt algorithm |
+| **Input Sanitization** | `htmlspecialchars()` on all user inputs |
+| **Session Management** | Secure session handling with timeout |
+| **CSRF Protection** | Session-based token validation |
+| **XSS Prevention** | Output encoding and Content Security Policy |
 
 ---
 
-## 🔄 Development Workflow
+## 🔄 CI/CD Pipeline
 
-1. Edit files in `workspace/src/`
-2. Run `npx grunt` in `workspace/` to build assets
-3. Files are copied to `htdocs/`
-4. Refresh browser to see changes
+The `.gitlab-ci.yml` configures automatic deployment:
+
+```yaml
+stages:
+  - build
+  - test
+  - deploy
+
+# Pipeline automatically:
+# 1. Builds Docker image
+# 2. Runs tests
+# 3. Deploys to production server
+```
+
+---
+
+## ⏰ Cron Job
+
+A daily maintenance script runs at midnight:
+
+```bash
+# Location: docker/daily_script.sh
+# Schedule: 0 0 * * * (daily at midnight)
+
+# Tasks:
+# - Clean up expired sessions
+# - Generate daily summary
+# - Database maintenance
+```
+
+---
+
+## 📦 Grunt Task Runner
 
 ```bash
 cd workspace
@@ -297,12 +285,75 @@ npm install
 npx grunt
 ```
 
+### Grunt Tasks
+
+| Task | Description |
+|------|-------------|
+| `uglify` | Minify JavaScript files |
+| `cssmin` | Minify CSS files |
+| `copy` | Copy PHP files to htdocs |
+| `watch` | Watch for file changes |
+
+---
+
+## ✅ Assignment Requirements Checklist
+
+| Requirement | Status | Implementation |
+|-------------|--------|----------------|
+| **Frontend** | ✅ | HTML, CSS, JavaScript, Bootstrap 5 |
+| **Backend** | ✅ | PHP 8.2 with OOP, Session Management |
+| **Database** | ✅ | MongoDB Atlas |
+| **RESTful APIs** | ✅ | Registration, Login, Notes CRUD |
+| **Docker** | ✅ | Dockerfile, docker-compose.yml |
+| **CI/CD** | ✅ | .gitlab-ci.yml with auto-deploy |
+| **Cron Jobs** | ✅ | Daily maintenance script |
+| **Grunt** | ✅ | CSS/JS minification, file copying |
+| **RabbitMQ** | ✅ | Async email queue processing |
+| **Defensive Programming** | ✅ | Input validation, error handling |
+| **Security** | ✅ | FingerprintJS, secure sessions |
+| **Domain Setup** | ✅ | nexusvalut.selfmade.one |
+| **Project Architecture** | ✅ | workspace/ and htdocs/ structure |
+
+---
+
+## 📁 Deliverables
+
+- ✅ Source code (workspace/, htdocs/)
+- ✅ Dockerfile & docker-compose.yml
+- ✅ .gitlab-ci.yml
+- ✅ README.md with instructions
+- ✅ Live site: [https://nexusvalut.selfmade.one/](https://nexusvalut.selfmade.one/)
+
+---
+
+## 🔧 Environment Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `MONGO_URI` | MongoDB Atlas URI | `mongodb+srv://user:pass@cluster...` |
+| `MONGO_DB` | Database name | `nexus_vault` |
+| `RABBITMQ_HOST` | RabbitMQ host | `rabbitmq` |
+| `RABBITMQ_PORT` | RabbitMQ port | `5672` |
+| `SMTP_HOST` | Email SMTP server | `smtp.gmail.com` |
+| `SMTP_PORT` | SMTP port | `587` |
+| `SMTP_USER` | Email username | `your@gmail.com` |
+| `SMTP_PASS` | App password | `xxxx-xxxx-xxxx` |
+
 ---
 
 ## 📜 License
 
-This project is for educational purposes (SNA Assignment 3).
+This project is developed for educational purposes (SNA Assignment 3).
 
 ---
 
-**Built with ❤️ by Dharshan Kumar J**
+## 👨‍💻 Author
+
+**Dharshan Kumar J**
+
+- Live Demo: [https://nexusvalut.selfmade.one/](https://nexusvalut.selfmade.one/)
+- Repository: GitLab
+
+---
+
+*Built with ❤️ for SNA Assignment 3*
