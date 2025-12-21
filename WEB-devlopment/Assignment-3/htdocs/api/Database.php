@@ -28,7 +28,26 @@ class Database {
         }
         
         try {
-            $this->client = new Client($mongo_uri);
+            // MongoDB Atlas connection options for proper TLS handling
+            $uriOptions = [];
+            $driverOptions = [
+                'serverApi' => new \MongoDB\Driver\ServerApi((string) \MongoDB\Driver\ServerApi::V1),
+            ];
+            
+            // For MongoDB Atlas (SRV connections), ensure TLS is properly configured
+            if (strpos($mongo_uri, 'mongodb+srv://') !== false) {
+                $uriOptions = [
+                    'tls' => true,
+                    'tlsAllowInvalidHostnames' => false,
+                    'tlsAllowInvalidCertificates' => false,
+                    'retryWrites' => true,
+                    'w' => 'majority',
+                    'serverSelectionTimeoutMS' => 30000,
+                    'connectTimeoutMS' => 30000,
+                ];
+            }
+            
+            $this->client = new Client($mongo_uri, $uriOptions, $driverOptions);
             $this->db = $this->client->selectDatabase($db_name);
             
             // Test Connection (Ping)
