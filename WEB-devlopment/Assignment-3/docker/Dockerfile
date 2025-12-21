@@ -1,13 +1,16 @@
 FROM php:8.2-apache
 
-# Install dependencies for PHP extensions
+# Install dependencies for PHP extensions and SSL/TLS support
 RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     pkg-config \
     libssl-dev \
     cron \
     git \
-    unzip
+    unzip \
+    ca-certificates \
+    openssl \
+    && update-ca-certificates
 
 # Install MongoDB Extension
 RUN pecl install mongodb && docker-php-ext-enable mongodb

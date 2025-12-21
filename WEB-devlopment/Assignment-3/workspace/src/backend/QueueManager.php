@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -11,18 +11,32 @@ class QueueManager {
     public function __construct() {
         $host = getenv('RABBITMQ_HOST') ?: 'rabbitmq';
         $port = (int)(getenv('RABBITMQ_PORT') ?: 5672);
-        $user = getenv('RABBITMQ_USER') ?: 'guest';
-        $pass = getenv('RABBITMQ_PASS') ?: 'guest';
+        $user = getenv('RABBITMQ_USER') ?: 'admin';
+        $pass = getenv('RABBITMQ_PASS') ?: 'admin123';
 
         try {
-            $this->connection = new AMQPStreamConnection($host, $port, $user, $pass);
+            // Set connection timeout
+            $this->connection = new AMQPStreamConnection(
+                $host, 
+                $port, 
+                $user, 
+                $pass,
+                '/',           // vhost
+                false,         // insist
+                'AMQPLAIN',    // login method
+                null,          // login response
+                'en_US',       // locale
+                3.0,           // connection timeout (seconds)
+                3.0            // read/write timeout
+            );
             $this->channel = $this->connection->channel();
             
-            // Declare queues
+            // Declare queues (durable)
             $this->channel->queue_declare('welcome_emails', false, true, false, false);
             $this->channel->queue_declare('notifications', false, true, false, false);
             
             $this->connected = true;
+            error_log("RabbitMQ: Connected successfully to $host:$port");
         } catch (Exception $e) {
             // Log error but don't crash app - RabbitMQ is optional
             error_log("RabbitMQ Connection Error: " . $e->getMessage());
@@ -34,9 +48,15 @@ class QueueManager {
         return $this->connected;
     }
 
-    // Queue a welcome email task
+    /**
+     * Queue a welcome email task
+     * This will be processed by the worker container
+     */
     public function queueWelcomeEmail($userId, $email, $name) {
-        if (!$this->connected) return false;
+        if (!$this->connected) {
+            error_log("RabbitMQ: Not connected, skipping welcome email queue");
+            return false;
+        }
 
         $data = [
             'type' => 'welcome_email',
@@ -52,10 +72,13 @@ class QueueManager {
         );
         
         $this->channel->basic_publish($msg, '', 'welcome_emails');
+        error_log("RabbitMQ: Queued welcome email for $email");
         return true;
     }
 
-    // Queue a generic notification
+    /**
+     * Queue a generic notification
+     */
     public function queueNotification($userId, $message, $type = 'info') {
         if (!$this->connected) return false;
 
