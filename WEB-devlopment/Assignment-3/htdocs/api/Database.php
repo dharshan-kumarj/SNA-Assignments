@@ -36,15 +36,40 @@ class Database {
             
             // For MongoDB Atlas (SRV connections), ensure TLS is properly configured
             if (strpos($mongo_uri, 'mongodb+srv://') !== false) {
+                // Determine CA certificate path based on OS
+                $caCertPath = null;
+                $possibleCaPaths = [
+                    '/etc/ssl/certs/ca-certificates.crt',  // Debian/Ubuntu
+                    '/etc/pki/tls/certs/ca-bundle.crt',    // CentOS/RHEL
+                    '/etc/ssl/ca-bundle.pem',              // OpenSUSE
+                    '/etc/ssl/cert.pem',                   // Alpine/macOS
+                ];
+                
+                foreach ($possibleCaPaths as $path) {
+                    if (file_exists($path)) {
+                        $caCertPath = $path;
+                        break;
+                    }
+                }
+                
                 $uriOptions = [
                     'tls' => true,
-                    'tlsAllowInvalidHostnames' => false,
-                    'tlsAllowInvalidCertificates' => false,
                     'retryWrites' => true,
                     'w' => 'majority',
                     'serverSelectionTimeoutMS' => 30000,
                     'connectTimeoutMS' => 30000,
                 ];
+                
+                // Add CA certificate if found
+                if ($caCertPath) {
+                    $uriOptions['tlsCAFile'] = $caCertPath;
+                }
+                
+                // Allow invalid certificates only if explicitly set (for debugging)
+                if (getenv('MONGO_ALLOW_INVALID_CERTS') === 'true') {
+                    $uriOptions['tlsAllowInvalidHostnames'] = true;
+                    $uriOptions['tlsAllowInvalidCertificates'] = true;
+                }
             }
             
             $this->client = new Client($mongo_uri, $uriOptions, $driverOptions);
